@@ -1,0 +1,74 @@
+spring:
+  application:
+    name: career-auth-api
+
+  profiles:
+    active: local
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+app:
+  jwt:
+    # IMPORTANT: replace with your own strong secret in production (set via env var APP_JWT_SECRET).
+    # Must be Base64-safe and at least 32 chars (256 bits) for HS256.
+    secret: ${APP_JWT_SECRET:ZmFrZS1zZWNyZXQtcmVwbGFjZS1tZS13aXRoLWEtcmVhbC1vbmUtMjU2Yml0cw==}
+    access-token-expiration-ms: ${APP_JWT_ACCESS_EXPIRATION_MS:900000}      # 15 minutes
+    refresh-token-expiration-ms: ${APP_JWT_REFRESH_EXPIRATION_MS:604800000} # 7 days
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: jdbc:h2:mem:careerdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD:}
