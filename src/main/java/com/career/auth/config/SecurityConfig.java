@@ -53,12 +53,13 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        // Replace with your actual Lovable/Netlify deployed frontend URL(s)
         config.setAllowedOrigins(List.of(
                 "http://localhost:5173",
                 "http://localhost:3000",
-                "https://your-lovable-app.lovable.app",
-                "https://your-app.netlify.app"
+                "https://preview--ai-powered-career-counselling1.lovable.app"
+        ));
+        config.setAllowedOriginPatterns(List.of(
+                "https://*.lovable.app"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
