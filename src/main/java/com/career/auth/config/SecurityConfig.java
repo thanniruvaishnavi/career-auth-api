@@ -59,7 +59,8 @@ public class SecurityConfig {
                 "https://preview--ai-powered-career-counselling1.lovable.app"
         ));
         config.setAllowedOriginPatterns(List.of(
-                "https://*.lovable.app"
+                "https://*.lovable.app",
+                "https://*.lovableproject.com"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
